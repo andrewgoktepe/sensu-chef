@@ -18,7 +18,10 @@
 #
 
 node.override.redisio.servers = [{:port => node.sensu.redis.port}]
+redisio_cookbook_version = run_context.cookbook_collection['redisio'].metadata.version
 
 include_recipe "redisio::default"
 include_recipe "redisio::install"
+include_recipe "redisio::configure" if redisio_cookbook_version.split('.')[0].to_i >= 2
+
 include_recipe "redisio::enable"
